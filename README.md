@@ -11,7 +11,7 @@ WTF is installation? I'm noob, download it yourself and compile!
 Lol, run it in lein and open your found urls recorded in file("outurls.txt").
 
     $ cd MyWayToClojureProjects/crawler
-    $ cd lein run
+    $ lein run
 
 ## Options
 
