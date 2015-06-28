@@ -4,7 +4,7 @@ Just primitive web-crawler, which helps you to get all the "usable" urls from so
 
 ## Installation
 
-WTF is installation? I'm noob, download it yourself and compile!
+WTF is installation? I'm noob, download it and compile!
 
 ## Usage
 
@@ -22,7 +22,11 @@ How many times crawler should process bunches of urls? That's it - a number of w
 
 ## Examples
 
-1)Add to file "urls.txt" "http://www.exmaple.com", save file.
+1)Add to file "urls.txt" url:
+
+    http://www.example.com
+
+  and save file. Use only full url, like in example above.
 
 2)
     $ cd  MyWayToClojureProjects/crawler
