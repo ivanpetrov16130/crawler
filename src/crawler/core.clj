@@ -61,7 +61,7 @@
 (defn apply-functions-to-url-hashmap [urls-hm f1 f2]
   (into {} (doall (pmap #(vector (f1 %) (f2 %)) urls-hm))))
 
-(defn visit-url [urls-hm]
+(defn visit-urls [urls-hm]
   (apply-functions-to-url-hashmap urls-hm first download-and-parse-url))
 
 (defn mark-used-urls [urls-hm]
@@ -72,7 +72,7 @@
 
 (defn crawl-bunch [depth]
   (do
-    (send-off urls visit-url)
+    (send-off urls visit-urls)
     (await urls)
     (renew-urls)
     (await urls)
@@ -81,7 +81,7 @@
     (dec depth)))
 
 (defn save-visited-urls [filename]
-  (strings-to-file filename (map #(first %) (filter  #((second %) :visited?) @urls))))
+  (strings-to-file filename (map #(first %) (filter #((second %) :visited?) @urls))))
 
 (defn save-found-urls [filename]
   (strings-to-file filename (map #(first %) @urls)))
