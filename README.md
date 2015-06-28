@@ -11,12 +11,12 @@ WTF is installation? I'm noob, download it yourself and compile!
 Lol, run it in lein and open your found urls recorded in file("outurls.txt").
 
     $ cd MyWayToClojureProjects/crawler
-    $ cd lein run -YourLevelOfPenetration
+    $ cd lein run
 
 ## Options
 
 --YourLevelOfPenetration
-How many times crawler should process bunches of urls? That's it!
+How many times crawler should process bunches of urls? That's it!(now options are unavailable)
 
 ## Examples
 
@@ -24,7 +24,7 @@ I'm so tired of this, try your own.
 
 ### Bugs
 
-¯\_(ツ)_/¯
+ ¯\_(ツ)_/¯
 
 ### That You Think
 
