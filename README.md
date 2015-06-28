@@ -21,13 +21,19 @@ And add your urls to file "urls.txt" for crawling, before you start.
 How many times crawler should process bunches of urls? That's it - a number of waves!
 
 ## Examples
+
 1)Add to file "urls.txt" "http://www.exmaple.com", save file.
+
 2)
     $ cd  MyWayToClojureProjects/crawler
+
 3)
     $ lein run 3
+
 4) Open file "out__urls"
+
 5) ????
+
 6) PROFIT!!!!
 
 ### Bugs
