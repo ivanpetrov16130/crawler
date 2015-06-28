@@ -8,20 +8,27 @@ WTF is installation? I'm noob, download it yourself and compile!
 
 ## Usage
 
-Lol, run it in lein and open your found urls recorded in file("outurls.txt").
+Lol, run it in lein and open your found urls recorded in file("out__urls.txt").
+And add your urls to file "urls.txt" for crawling, before you start.
 
     $ cd MyWayToClojureProjects/crawler
-    $ lein run
+    $ lein run depth
 
 ## Options
 
---YourLevelOfPenetration
+--depth
 
-How many times crawler should process bunches of urls? That's it!(now options are unavailable)
+How many times crawler should process bunches of urls? That's it - a number of waves!
 
 ## Examples
-
-I'm so tired of this, try your own.
+1)Add to file "urls.txt" "http://www.exmaple.com", save file.
+2)
+    $ cd  MyWayToClojureProjects/crawler
+3)
+    $ lein run 3
+4) Open file "out__urls"
+5) ????
+6) PROFIT!!!!
 
 ### Bugs
 

@@ -92,8 +92,9 @@
       (save-found-urls "out_urls.txt")
       (recur (crawl-bunch i)))))
 
-(defn -main [& args]
+(defn -main [depth]
   (time
    (do
     (file-to-urls "urls.txt")
-    (crawl 1))))
+    (crawl (read-string depth))
+    (shutdown-agents))))
