@@ -3,11 +3,10 @@
   (:require [clojure.java.io :as io]
             [clj-http.client :as client]))
 
-(def urls (agent {} :error-mode :continue :error-handler (fn [this_agent e] (.println System/out (.getMessage e)))))
+(def urls (agent {} :error-handler (fn [this-agent e] (.println System/out (.getMessage e)))))
 
 (defn add-urls [new_urls]
-  (doseq [url new_urls] (send-off urls assoc url {:visited? false :links '()})))
-
+  (doseq [url new_urls] (send-off urls assoc url {:visited? false :not-used? true :links '()})))
 
 (defn file-to-strings [filename]
   (if (-> filename io/as-file .exists)
@@ -46,27 +45,30 @@
     (filter crawlable? (re-seq #"http://[^;\"' \t\n\r]+" webpage)))
 
 (defn download-and-parse-url [url]
-  (if ((second url) :visited?)
-    (second url)
-    {:visited? true :links (-> url first get-webpage find-links)}))
+  (let [url-adress (first url)
+        url-info (second url)]
+    (if (url-info :visited?)
+      url-info
+      {:visited? true :not-used? true :links (-> url-adress get-webpage find-links)})))
 
+(defn mark-visited-url-as-used [url]
+  (let [url-adress (first url)
+        url-info (second url)]
+    (if (url-info :visited?)
+      (assoc url-info :not-used? false)
+      url-info)))
 
-(defn clear-links [url_info]
-  (if (url_info :visited?)
-    (assoc url_info :links '())
-    url_info))
+(defn apply-functions-to-url-hashmap [urls-hm f1 f2]
+  (into {} (doall (pmap #(vector (f1 %) (f2 %)) urls-hm))))
 
-(defn visit-url [urls_hm]
-  (into {} (doall (pmap #(vector (first %) (download-and-parse-url %)) urls_hm))))
+(defn visit-url [urls-hm]
+  (apply-functions-to-url-hashmap urls-hm first download-and-parse-url))
 
-(defn rm-links-from-visited-urls [urls_hm]
-  (into {} (doall (pmap #(vector (first %) (-> % second clear-links)) urls_hm))))
+(defn mark-used-urls [urls-hm]
+  (apply-functions-to-url-hashmap urls-hm first mark-visited-url-as-used))
 
-;;!!!!!error!!!!
 (defn renew-urls []
-  (->  (map #((second %) :links) (filter #((second %) :visited?) @urls )) flatten add-urls))
-(map #((second %) :links) (filter #((second %) :visited?) @urls ))
-
+  (-> (map #((second %) :links) (filter #(and ((second %) :not-used?) ((second %) :visited?)) @urls )) flatten add-urls))
 
 (defn crawl-bunch [depth]
   (do
@@ -74,11 +76,9 @@
     (await urls)
     (renew-urls)
     (await urls)
-    ;(send-off urls rm-links-from-visited-urls)
-    ;(await urls)
-    (dec depth)
-   )
-  )
+    (send-off urls mark-used-urls)
+    (await urls)
+    (dec depth)))
 
 (defn save-visited-urls [filename]
   (strings-to-file filename (map #(first %) (filter  #((second %) :visited?) @urls))))
@@ -86,38 +86,14 @@
 (defn save-found-urls [filename]
   (strings-to-file filename (map #(first %) @urls)))
 
-
 (defn crawl [depth]
   (loop [i depth]
     (if (= i 0)
-      (save-visited-urls "out_urls.txt")
-      (recur (crawl-bunch i))
-      )
-    )
-  )
-
-;;тут типа мой репл
-@urls
-(file-to-urls "urls.txt")
-;(restart-agent urls {})
-(crawl 3)
-(do
-  (send-off urls visit-url)
-  (await urls)
-  )
-(do
-  (renew-urls)
-  (await urls)
-  )
-
-(@urls "http://www.ucoz.ru/")
-(@urls "http://fantet.narod.ru/sector/g101.htm")
-
-(@urls "http://amisport.com.ua")
-;(filter #((second %) :visited?) @urls )
-
+      (save-found-urls "out_urls.txt")
+      (recur (crawl-bunch i)))))
 
 (defn -main [& args]
-  (do
+  (time
+   (do
     (file-to-urls "urls.txt")
-    (crawl 2)))
+    (crawl 1))))

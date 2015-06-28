@@ -1,32 +1,34 @@
 # crawler
 
-FIXME: description
+Just primitive web-crawler, which helps you to get all the "usable" urls from some pages.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+WTF is installation? I'm noob, download it yourself and compile!
 
 ## Usage
 
-FIXME: explanation
+Lol, run it in lein and open your found urls recorded in file("outurls.txt").
 
-    $ java -jar crawler-0.1.0-standalone.jar [args]
+    $ cd MyWayToClojureProjects/crawler
+    $ cd lein run -YourLevelOfPenetration
 
 ## Options
 
-FIXME: listing of options this app accepts.
+--YourLevelOfPenetration
+How many times crawler should process bunches of urls? That's it!
 
 ## Examples
 
-...
+I'm so tired of this, try your own.
 
 ### Bugs
 
-...
+¯\_(ツ)_/¯
 
-### Any Other Sections
 ### That You Think
-### Might be Useful
+
+Law doesn't work, Authorities are illegal, Society is rotting.
 
 ## License
 
