@@ -29,9 +29,11 @@ How many times crawler should process bunches of urls? That's it - a number of w
   and save file. Use only full url, like in example above.
 
 2)
+
     $ cd  MyWayToClojureProjects/crawler
 
 3)
+
     $ lein run 3
 
 4) Open file "out__urls"
